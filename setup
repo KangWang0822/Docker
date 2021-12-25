@@ -11,3 +11,4 @@ mkdir results
 # on Mac
 cd /Users/kangwang/KI/Bioinfo_tools/Docker
 docker run -it -v "$(pwd)":/results mxhe/phylogicndt:upstream_ab72acf sh  ###results would be constructed on Docker/images
+#NB: use the same container each time, otherwise the work/documnets would be lost
