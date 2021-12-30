@@ -12,3 +12,13 @@ mkdir results
 cd /Users/kangwang/KI/Bioinfo_tools/Docker
 docker run -it -v "$(pwd)":/results mxhe/phylogicndt:upstream_ab72acf sh  ###results would be constructed on Docker/images
 #NB: use the same container each time, otherwise the work/documnets would be lost
+##########################
+##########################
+########Phylogicndt#######
+##########################
+##########################
+cd phylogicndt
+python /phylogicndt/PhylogicNDT.py Cluster -h
+#example
+cd results
+python /phylogicndt/PhylogicNDT.py Cluster -i Patient_ID  -sif MySimulation_input.sif
