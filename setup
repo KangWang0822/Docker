@@ -1,16 +1,17 @@
 #Download images: https://hub.docker.com/
 #phylogicndt: https://hub.docker.com/r/mxhe/phylogicndt/tags
-docker pull mxhe/phylogicndt:upstream_ab72acf
+docker pull alexbarbera/phylogicndt_ploidy3:initial
 ###check images available
 docker -images
+docker ps
 ###Run images
-docker run -i mxhe/phylogicndt:upstream_ab72acf
+docker run -i alexbarbera/phylogicndt_ploidy3:initial
 ###enter the docker and construct a folder for bind mount 
 mkdir results
 #sharing the folder between docker and local folder
 # on Mac
 cd /Users/kangwang/KI/Bioinfo_tools/Docker
-docker run -it -v "$(pwd)":/results mxhe/phylogicndt:upstream_ab72acf sh  ###results would be constructed on Docker/images
+docker run -it -v "$(pwd)":/results alexbarbera/phylogicndt_ploidy3:initial sh  ###results would be constructed on Docker/images
 #NB: use the same container each time, otherwise the work/documnets would be lost
 ##########################
 ##########################
@@ -22,3 +23,5 @@ python /phylogicndt/PhylogicNDT.py Cluster -h
 #example
 cd results
 python /phylogicndt/PhylogicNDT.py Cluster -i Patient_ID  -sif MySimulation_input.sif
+python /phylogicndt/PhylogicNDT.py Cluster -i Patient_ID --maf_input_type calc_ccf -sif test.sif
+
