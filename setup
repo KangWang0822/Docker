@@ -1,17 +1,17 @@
 #Download images: https://hub.docker.com/
 #phylogicndt: https://hub.docker.com/r/mxhe/phylogicndt/tags
-docker pull alexbarbera/phylogicndt_ploidy3:initial
+docker pull chipstewart/phylogicndt_task_1:2
 ###check images available
 docker -images
 docker ps
 ###Run images
-docker run -i alexbarbera/phylogicndt_ploidy3:initial
+docker run -i chipstewart/phylogicndt_task_1:2
 ###enter the docker and construct a folder for bind mount 
 mkdir results
 #sharing the folder between docker and local folder
 # on Mac
 cd /Users/kangwang/KI/Bioinfo_tools/Docker
-docker run -it -v "$(pwd)":/results alexbarbera/phylogicndt_ploidy3:initial sh  ###results would be constructed on Docker/images
+docker run -it -v "$(pwd)":/src/PhylogicNDT/results chipstewart/phylogicndt_task_1:2 sh  ###results would be constructed on Docker/images
 #NB: use the same container each time, otherwise the work/documnets would be lost
 ##########################
 ##########################
@@ -19,15 +19,32 @@ docker run -it -v "$(pwd)":/results alexbarbera/phylogicndt_ploidy3:initial sh  
 ##########################
 ##########################
 cd phylogicndt
-python /phylogicndt/PhylogicNDT.py Cluster -h
+python /src/PhylogicNDT/PhylogicNDT.py Cluster -h
+python /src/PhylogicNDT/PhylogicNDT.py BuildTree -h
 #example
-cd results
-python /phylogicndt/PhylogicNDT.py Cluster -i Patient_ID --maf_input_type calc_ccf -sif test.sif
+cd /src/PhylogicNDT/results
+python /src/PhylogicNDT/PhylogicNDT.py BuildTree -i Patient_ID -s Sample1_id:Sample1_maf:Sample1_CN_seg:Sample1_Purity:Sample1_Timepoint -s
+python /src/PhylogicNDT/PhylogicNDT.py Cluster -i Patient_ID --maf_input_type calc_ccf -sif Test.sif -rb #Cluster
+python /src/PhylogicNDT/PhylogicNDT.py BuildTree -i Patient_ID -sif Test.sif --mutation_ccf Patient_ID.mut_ccfs.tsv --cluster_ccf Patient_ID.cluster_ccfs.tsv   #Tree
+
 #Run Cluster together with BuildTree
-python /phylogicndt/PhylogicNDT.py Cluster -i Patient_ID --maf_input_type calc_ccf -sif test.sif    #Cluster
-python /phylogicndt/PhylogicNDT.py BuildTree -i Patient_ID -sif test.sif -m Patient_ID.mut_ccfs.txt -c Patient_ID.cluster_ccfs.txt  #Tree
+cd results
+python /phylogicndt/PhylogicNDT.py Cluster -i Patient_ID --maf_input_type calc_ccf -sif Test.sif    #Cluster
+python /phylogicndt/PhylogicNDT.py BuildTree -i Patient_ID -sif Test.sif -m Patient_ID.mut_ccfs.tsv -c Patient_ID.cluster_ccfs.tsv  #Tree
 
 
 python /phylogicndt/PhylogicNDT.py Cluster -i Patient_ID -sif MySimulation_input.sif -rb
 python /phylogicndt/PhylogicNDT.py BuildTree -i Patient_ID -sif test.sif -m Patient_ID.mut_ccfs.txt -c Patient_ID.cluster_ccfs.txt
 
+#########PhylogicSim########
+#A simulation module is provided for convenience.
+python /phylogicndt/PhylogicNDT.py PhylogicSim --help
+#Command to visualize all the options and help.
+
+python /phylogicndt/PhylogicNDT.py PhylogicSim 
+#Run the simulation with the default paramters.
+
+python /phylogicndt/PhylogicNDT.py PhylogicSim -i MySimulation
+Specify a prefix for all the output files
+
+python /phylogicndt/PhylogicNDT.py Cluster -i Patient_ID -rb -sif MySimulation.sif
