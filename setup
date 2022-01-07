@@ -1,3 +1,6 @@
+###
+python PhylogicNDT.py Cluster -i Patient_ID -sif ./ExampleData/ExampleSamples/MySimulation_input.sif
+python PhylogicNDT.py BuildTree -i Patient_ID -sif ./ExampleData/ExampleSamples/MySimulation_input.sif -m Patient_ID.mut_ccfs.txt -c Patient_ID.cluster_ccfs.txt
 #Download images: https://hub.docker.com/
 #phylogicndt: https://hub.docker.com/r/mxhe/phylogicndt/tags
 docker pull chipstewart/phylogicndt_task_1:2
@@ -48,3 +51,32 @@ python /phylogicndt/PhylogicNDT.py PhylogicSim -i MySimulation
 Specify a prefix for all the output files
 
 python /phylogicndt/PhylogicNDT.py Cluster -i Patient_ID -rb -sif MySimulation.sif
+
+###############On Win#################
+git clone https://github.com/broadinstitute/PhylogicNDT.git
+cd PhylogicNDT
+docker build --tag phylogicndt . 
+##############Use package#############
+docker run -i -t phylogicndt
+cd phylogicndt
+######################################
+docker ps
+phylogicndt:latest
+###Run images
+docker run -i phylogicndt:latest
+###enter the docker and construct a folder for bind mount 
+mkdir results
+#sharing the folder between docker and local folder
+# on Win
+cd C:/KangWang/Bioinfo_tools/PhylogicNDT/results
+docker run -it -v C:/KangWang/Bioinfo_tools/PhylogicNDT/results:/phylogicndt/results phylogicndt sh  ###results would be constructed on Docker/images
+#NB: use the same container each time, otherwise the work/documnets would be lost
+cd /phylogicndt/results
+python /phylogicndt/PhylogicNDT.py Cluster -i Patient_ID -sif MySimulation_input.sif --run_with_BuildTree
+python /phylogicndt/PhylogicNDT.py BuildTree -i Patient_ID -sif MySimulation_input.sif -m Patient_ID.mut_ccfs.txt -c Patient_ID.cluster_ccfs.txt
+python /phylogicndt/PhylogicNDT.py GrowthKinetics -i Patient_ID -sif MySimulation_input.sif -ab cell_population_abundance_mcmc_trace -w 10 10 10 10 10 -t 1 2 3 4 5 
+
+
+
+
+
