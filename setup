@@ -25,8 +25,9 @@ python /phylogicndt/PhylogicNDT.py Cluster -i KTN102 --maf_input_type calc_ccf -
 
 ###example
 cd /Users/kangwang/KI/Bioinfo_tools/Docker/PhylogicNDT/example
-python /phylogicndt/PhylogicNDT.py Cluster -i PatientsID -sif MySimulation_inputs.sif -rb
-python /phylogicndt/PhylogicNDT.py GrowthKinetics -i Indiv_ID -sif MySimulation_inputs.sif -ab PatientsID_cell_population_mcmc_trace.tsv -w 10 10 10 -t 1 2 3
+python /phylogicndt/PhylogicNDT.py Cluster -i PatientsID -sif MySimulation_inputs.sif
+python /phylogicndt/PhylogicNDT.py BuildTree -i PatientsID -sif MySimulation_inputs.sif -m PatientsID.mut_ccfs.txt -c PatientsID.cluster_ccfs.txt
+python /phylogicndt/PhylogicNDT.py GrowthKinetics -i PatientsID -sif MySimulation_inputs.sif -ab PatientsID_cell_population_mcmc_trace.tsv -w 10 8 6 4 -t 1 2 3 4
 
 
 
