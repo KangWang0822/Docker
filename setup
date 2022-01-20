@@ -1,26 +1,31 @@
 ###
-python PhylogicNDT.py Cluster -i Patient_ID -sif ./ExampleData/ExampleSamples/MySimulation_input.sif
-python PhylogicNDT.py BuildTree -i Patient_ID -sif ./ExampleData/ExampleSamples/MySimulation_input.sif -m Patient_ID.mut_ccfs.txt -c Patient_ID.cluster_ccfs.txt
+docker pull alexbarbera/phylogicndt_ploidy3:initial
 #Download images: https://hub.docker.com/
 #phylogicndt: https://hub.docker.com/r/mxhe/phylogicndt/tags
-docker pull chipstewart/phylogicndt_task_1:2
 ###check images available
 docker -images
 docker ps
 ###Run images
-docker run -i chipstewart/phylogicndt_task_1:2
+docker run -i alexbarbera/phylogicndt_ploidy3:initial
 ###enter the docker and construct a folder for bind mount 
 mkdir results
 #sharing the folder between docker and local folder
 # on Mac
-cd /Users/kangwang/KI/Bioinfo_tools/Docker
-docker run -it -v "$(pwd)":/src/PhylogicNDT/results chipstewart/phylogicndt_task_1:2 sh  ###results would be constructed on Docker/images
+cd /Users/kangwang/KI/Bioinfo_tools/Docker/PhylogicNDT #set up in sharing file
+docker run -it -v "$(pwd)":/results alexbarbera/phylogicndt_ploidy3:initial sh  ###results would be constructed on Docker/images
 #NB: use the same container each time, otherwise the work/documnets would be lost
 ##########################
 ##########################
 ########Phylogicndt#######
 ##########################
 ##########################
+
+python /phylogicndt/PhylogicNDT.py Cluster -i PatientsID --maf_input_type calc_ccf -sif MySimulation_inputs.sif -rb
+python /phylogicndt/PhylogicNDT.py Cluster -i KTN102 --maf_input_type calc_ccf -sif MySimulation_input.sif -rb
+
+
+
+
 cd phylogicndt
 python /src/PhylogicNDT/PhylogicNDT.py Cluster -h
 python /src/PhylogicNDT/PhylogicNDT.py BuildTree -h
