@@ -19,10 +19,14 @@ docker run -it -v "$(pwd)":/results alexbarbera/phylogicndt_ploidy3:initial sh  
 ########Phylogicndt#######
 ##########################
 ##########################
-
+cd /Users/kangwang/KI/Bioinfo_tools/Docker/PhylogicNDT
 python /phylogicndt/PhylogicNDT.py Cluster -i PatientsID --maf_input_type calc_ccf -sif MySimulation_inputs.sif -rb
 python /phylogicndt/PhylogicNDT.py Cluster -i KTN102 --maf_input_type calc_ccf -sif MySimulation_input.sif -rb
 
+###example
+cd /Users/kangwang/KI/Bioinfo_tools/Docker/PhylogicNDT/example
+python /phylogicndt/PhylogicNDT.py Cluster -i PatientsID -sif MySimulation_inputs.sif -rb
+python /phylogicndt/PhylogicNDT.py GrowthKinetics -i Indiv_ID -sif MySimulation_inputs.sif -ab PatientsID_cell_population_mcmc_trace.tsv -w 10 10 10 -t 1 2 3
 
 
 
